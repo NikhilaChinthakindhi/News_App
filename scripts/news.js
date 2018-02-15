@@ -12,14 +12,23 @@
         xhttp.send();
         response = xhttp;
         out = JSON.parse(response.responseText);
-        console.log(out);
-
-
-        for (var i = 1; i <= 5; i++) {
-            var myCol = $('<div class="col-sm-3 col-md-3 pb-2"></div>');
-            var myPanel = $('<div class="card card-outline-info" id="' + i + 'Panel"><div class="card-block"><div class="card-title"><span>Card #' + i + '</span><button type="button" class="close" data-target="#' + i + 'Panel" data-dismiss="alert"><span class="float-right"><i class="fa fa-remove"></i></span></button></div><p>Some text in ' + i + ' </p><img src="//placehold.it/50/eeeeee" class="rounded rounded-circle"></div></div>');
+        
+        for (var i = 1; i <= out.totalResults; i++) {
+            var myCol = $('<div class="col-md-4"></div>');
+            var myPanel = $('<div class="card card-outline-info" id="Card' + i + '">' +
+                '<a href="' + out.articles[i - 1].url + '" target="_blank">'+
+                '<img class="card-img-top" style="height:200px; width=100%" src=' + out.articles[i - 1].urlToImage +
+                '></a>' +
+                '<div class="card-block">'+
+                '<h4 class="card-title">' + out.articles[i - 1].title + '</h4>' +
+                '<p class="card-text">' + out.articles[i - 1].description +
+                '<span class="pull-right"><br/>' + out.articles[i - 1].publishedAt + '</span>' +
+                '</p>' +
+                '</div></div>');
             myPanel.appendTo(myCol);
             myCol.appendTo('#contentPanel');
+
+            console.log(out.articles[i-1]);
         }
 
 
