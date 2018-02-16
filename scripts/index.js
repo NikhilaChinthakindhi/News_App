@@ -1,45 +1,68 @@
 ﻿$(document).ready(function () {
 
-    //Form submit 
-    $("#home_form").submit(function () {
-        if (typeof (Storage) !== "undefined") {
-            localStorage.setItem("ls_name", $('#user_name').val());
-            localStorage.setItem("ls_email", $('#user_email').val());
-            localStorage.setItem("ls_education", $('#education').val());
-            localStorage.setItem("ls_semester", $('#semester').val());
-            localStorage.setItem("ls_career", $('#career').val());
-        }
-        else {
-            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
-        }
+    var form_height = $('#home_form').height();
+    
 
+    $('#reg_here').click(function () {
+        $('#email_visibility').show();
+        $('#reg_visibility').show();
+        $('#login_visibility').hide();
+        $('#login_here').show();
+        $('#reg_here').hide();
     });
 
 
-    //Storing all courses details in local storage. These are used while showing remaining seats during registration
-    var course = { 'id': 1001, 'name': 'COMP SCI - Object-Oriented Programming', 'total': '60', 'remaining': '12' };
-    localStorage.setItem("ls_course1", JSON.stringify(course));
-    
-    course = { 'id': 1002, 'name': 'COMP SCI - Foundations of data science', 'total': '40', 'remaining': '0' };
-    localStorage.setItem("ls_course2", JSON.stringify(course));
+    $('#login_here').click(function () {
+        //$('#home_form').height(form_height);
+        $('#email_visibility').hide();
+        $('#reg_visibility').hide();
+        $('#login_visibility').show();
+        $('#login_here').hide();
+        $('#reg_here').show();
+    });
 
-    course = { 'id': 1003, 'name': 'COMP SCI - Introduction to Programming Using Python', 'total': '30', 'remaining': '17' };
-    localStorage.setItem("ls_course3", JSON.stringify(course));
 
-    course = { 'id': 1004, 'name': 'COMP SCI - Introduction to Computer Science', 'total': '45', 'remaining': '10' };
-    localStorage.setItem("ls_course4", JSON.stringify(course));
+    //user registration
+    $("#reg_submit").click(function () {
+        if (typeof (Storage) !== "undefined") {
+            var existing_users = JSON.parse(localStorage.getItem('news_app_users'));
+            var previous_id = existing_users[existing_users.length - 1].user_id;
+            var user_input = { user_id: parseInt(previous_id) + 1, userName: $('#user_name').val(), userEmail: $('#user_email').val(), password: $('#user_password').val() };
+            existing_users.push(user_input);
+            localStorage.setItem("news_app_users", JSON.stringify(existing_users));
+            console.log(JSON.parse(localStorage.getItem("news_app_users")));
 
-    course = { 'id': 2001, 'name': 'LAW - Introduction to Constitutional Law', 'total': '35', 'remaining': '1' };
-    localStorage.setItem("ls_course5", JSON.stringify(course));
+            alert("User registration completed successfully. Please login to continue.");
+            
+        }
+        else {
+            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+        }        
 
-    course = { 'id': 2002, 'name': 'LAW - Criminal Law', 'total': '60', 'remaining': '30' };
-    localStorage.setItem("ls_course6", JSON.stringify(course));
+    });
 
-    course = { 'id': 2003, 'name': 'LAW - International Investment Law', 'total': '60', 'remaining': '0' };
-    localStorage.setItem("ls_course7", JSON.stringify(course));
+    $('#login_submit').click(function () {
+        var i = 0;
+        var userID=0;
+        var matchFlag = 0;
+        var username_input= $('#user_name').val();
+        var password_input = $('#user_password').val();
+        var existing_users_news_app = JSON.parse(localStorage.getItem('news_app_users'));
+        for (i = 0; i < existing_users_news_app.length; i++) {
+            if (username_input == existing_users_news_app[i].userName && password_input == existing_users_news_app[i].password) {
+                matchFlag=1;
+                userID= existing_users_news_app[i].user_id;
+            }
+        }
 
-    course_ = { 'id': 2004, 'name': 'LAW - Contract Law: From Trust to Promise to Contract', 'total': '60', 'remaining': '26' };
-    localStorage.setItem("ls_course8", JSON.stringify(course));
+        if(matchFlag==1){
+            window.location.href = "../news.html?" + userID;
+        }
+        else{
+        alert("Username or password is incorrect");
+
+        }
+    });
 });
 
 
