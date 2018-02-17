@@ -22,6 +22,14 @@
     });
 
 
+		//inserting values into local storage for firt time so that it wont throw null storage next time while accessing it whose code is below that we are using in code
+			//var localObject = [];
+            //var testObject = { user_id: "1", userName: "firstUser", userEmail: "firstUser@gmail.com", password: "firstUser" };
+            //localObject.push(testObject);
+            //localStorage.setItem("news_app_users", JSON.stringify(localObject));
+            //console.log(JSON.parse(localStorage.getItem("news_app_users")));
+			
+			
     //user registration
     $("#reg_submit").click(function () {
         if (typeof (Storage) !== "undefined") {
