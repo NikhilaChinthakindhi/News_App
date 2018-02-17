@@ -80,6 +80,7 @@
      
     $('#logout_btn').on('click', function(e){
         window.location.href = "../index.html";
+        alert("Click OK to Logout");
     });
 
 
